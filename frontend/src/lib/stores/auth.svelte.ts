@@ -69,7 +69,7 @@ class AuthStore {
 
   async signup(name: string, email: string, password: string) {
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

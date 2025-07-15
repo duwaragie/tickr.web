@@ -1,22 +1,68 @@
 @import 'tailwindcss';
+
 /* Light/Dark theme variables using CSS custom properties */
 :root {
+  /* Brand Colors */
   --color-electric: #00FFFF;
   --color-neon: #39FF14;
   --color-coral: #FF6B6B;
   --color-softYellow: #FFF9C4;
   --color-charcoal: #212121;
   --color-light: #FFFFFF;
+  
+  /* Accessible variants for better contrast */
+  --color-electric-accessible: #0099CC;
+  --color-neon-accessible: #00CC00;
+  --color-coral-accessible: #CC5555;
+  --color-softYellow-accessible: #B8860B;
 }
 
-.light {
-  --bg-primary: var(--color-light);
-  --text-primary: var(--color-charcoal);
-}
-
+/* Dark Theme */
 .dark {
-  --bg-primary: var(--color-charcoal);
-  --text-primary: var(--color-light);
+  --bg-primary: #212121;
+  --bg-secondary: #2A2A2A;
+  --bg-tertiary: #333333;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E0E0E0;
+  --text-muted: #B0B0B0;
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.2);
+  --shadow-primary: rgba(0, 0, 0, 0.3);
+  --shadow-secondary: rgba(0, 0, 0, 0.1);
+  
+  /* Glass morphism for dark theme */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-hover: rgba(255, 255, 255, 0.12);
+  
+  /* Floating orb colors */
+  --orb-electric: rgba(0, 255, 255, 0.3);
+  --orb-neon: rgba(57, 255, 20, 0.25);
+  --orb-coral: rgba(255, 107, 107, 0.2);
+}
+
+/* Light Theme */
+.light {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-tertiary: #F1F3F4;
+  --text-primary: #212121;
+  --text-secondary: #424242;
+  --text-muted: #666666;
+  --border-primary: rgba(0, 0, 0, 0.08);
+  --border-secondary: rgba(0, 0, 0, 0.12);
+  --shadow-primary: rgba(0, 0, 0, 0.1);
+  --shadow-secondary: rgba(0, 0, 0, 0.05);
+  
+  /* Glass morphism for light theme */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.85);
+  
+  /* Floating orb colors for light theme */
+  --orb-electric: rgba(0, 153, 204, 0.15);
+  --orb-neon: rgba(0, 204, 0, 0.12);
+  --orb-coral: rgba(204, 85, 85, 0.12);
 }
 
 /* Gradient backgrounds */
@@ -59,6 +105,44 @@
   color: #FFFFFF !important;
 }
 
+/* Theme-aware text colors with proper CSS classes */
+.text-primary {
+  color: var(--text-primary) !important;
+}
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* CSS classes that correspond to Tailwind naming */
+.border-primary {
+  border-color: var(--border-primary) !important;
+}
+
+/* Accessible color variants for better contrast */
+.text-electric-accessible {
+  color: var(--color-electric-accessible) !important;
+}
+.text-neon-accessible {
+  color: var(--color-neon-accessible) !important;
+}
+.text-coral-accessible {
+  color: var(--color-coral-accessible) !important;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--bg-primary) !important;
+}
+.bg-secondary {
+  background-color: var(--bg-secondary) !important;
+}
+.bg-tertiary {
+  background-color: var(--bg-tertiary) !important;
+}
+
 /* Border color utilities */
 .border-electric {
   border-color: #00FFFF !important;
@@ -79,12 +163,17 @@
   border-color: #FFFFFF !important;
 }
 
-/* Liquid Glass Effects */
+/* Liquid Glass Effects - Theme Adaptive */
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--shadow-secondary);
+}
+
+.glass-morphism:hover {
+  background: var(--glass-hover);
+  border-color: var(--border-secondary);
 }
 
 .glass-electric {
@@ -111,6 +200,7 @@
 .liquid-glass-container {
   position: relative;
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
 .liquid-glass-container::before {
@@ -120,7 +210,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--orb-electric) 0%, transparent 70%);
   animation: liquid-flow 6s ease-in-out infinite;
   pointer-events: none;
 }
@@ -132,7 +222,7 @@
   right: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(57, 255, 20, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--orb-neon) 0%, transparent 70%);
   animation: liquid-flow-reverse 8s ease-in-out infinite;
   pointer-events: none;
 }
@@ -154,19 +244,20 @@
 .floating-orb {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0.05));
+  background: radial-gradient(circle, var(--orb-electric), transparent);
   animation: float 4s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
 }
 
 .floating-orb:nth-child(2) {
-  background: radial-gradient(circle, rgba(57, 255, 20, 0.25), rgba(57, 255, 20, 0.05));
+  background: radial-gradient(circle, var(--orb-neon), transparent);
   animation-delay: -2s;
   animation-duration: 5s;
 }
 
 .floating-orb:nth-child(3) {
-  background: radial-gradient(circle, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.05));
+  background: radial-gradient(circle, var(--orb-coral), transparent);
   animation-delay: -1s;
   animation-duration: 6s;
 }
@@ -178,8 +269,14 @@
 
 /* Enhanced button styles */
 .btn-primary {
-  @apply px-6 py-3 font-semibold rounded-xl border-2 transition-all duration-300 relative overflow-hidden;
-  background: linear-gradient(135deg, rgba(0, 255, 255, 0.8), rgba(0, 128, 255, 0.8));
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.9), rgba(0, 128, 255, 0.9));
   color: #212121;
   border-color: rgba(0, 255, 255, 0.5);
   backdrop-filter: blur(10px);
@@ -188,11 +285,18 @@
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 255, 255, 1), rgba(0, 128, 255, 1));
 }
 
 .btn-secondary {
-  @apply px-6 py-3 font-semibold rounded-xl border-2 transition-all duration-300 relative overflow-hidden;
-  background: linear-gradient(135deg, rgba(57, 255, 20, 0.8), rgba(0, 255, 127, 0.8));
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(57, 255, 20, 0.9), rgba(0, 255, 127, 0.9));
   color: #212121;
   border-color: rgba(57, 255, 20, 0.5);
   backdrop-filter: blur(10px);
@@ -201,29 +305,34 @@
 .btn-secondary:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(57, 255, 20, 0.3);
+  background: linear-gradient(135deg, rgba(57, 255, 20, 1), rgba(0, 255, 127, 1));
 }
 
 .input-glass {
-  @apply w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2;
-  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+  background: var(--glass-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--text-primary);
 }
 
 .input-glass:focus {
-  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  background: var(--glass-hover);
   border-color: #00FFFF;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 0 2px rgba(0, 255, 255, 0.5);
 }
 
 .input-glass::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 }
 
-/* Background patterns */
+/* Background patterns - Theme adaptive */
 .auth-bg {
-  background: linear-gradient(135deg, #212121 0%, #424242 50%, #212121 100%);
+  background: var(--bg-primary);
   position: relative;
 }
 
@@ -235,28 +344,186 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(57, 255, 20, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(255, 107, 107, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, var(--orb-electric) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, var(--orb-neon) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, var(--orb-coral) 0%, transparent 50%);
   pointer-events: none;
 }
 
 /* Dashboard specific styles */
 .dashboard-card {
-  @apply rounded-2xl p-6 transition-all duration-300 hover:scale-105;
-  background: rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--shadow-secondary);
 }
 
 .dashboard-card:hover {
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 12px 40px rgba(0, 255, 255, 0.15);
   border-color: rgba(0, 255, 255, 0.3);
+  background: var(--glass-hover);
 }
 
 .sidebar-glass {
-  background: rgba(33, 33, 33, 0.9);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid var(--border-primary);
+}
+
+/* Interactive elements with theme awareness */
+.hover-glass {
+  transition: all 0.3s ease;
+}
+
+.hover-glass:hover {
+  background: var(--glass-hover) !important;
+  border-color: var(--border-secondary) !important;
+}
+
+/* Improved accessibility focus styles */
+*:focus {
+  outline: 2px solid #00FFFF;
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid #00FFFF;
+  outline-offset: 2px;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: var(--glass-hover);
+  border-color: var(--border-secondary);
+  transform: scale(1.05);
+}
+
+/* Light theme specific adjustments */
+.light .floating-orb {
+  opacity: 0.6;
+}
+
+.light .dashboard-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 153, 204, 0.15);
+  border-color: rgba(0, 153, 204, 0.3);
+}
+
+/* Dark theme specific adjustments */
+.dark .floating-orb {
+  opacity: 1;
+}
+
+/* Additional form styling */
+.placeholder-muted::placeholder {
+  color: var(--text-muted);
+}
+
+/* Gradient utilities for buttons */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--first-color), var(--second-color));
+}
+
+.from-electric {
+  --first-color: #00FFFF;
+}
+
+.to-neon {
+  --second-color: #39FF14;
+}
+
+.hover\:from-electric-hover:hover {
+  --first-color: #00E6E6;
+}
+
+.hover\:to-neon-hover:hover {
+  --second-color: #32E612;
+}
+
+/* Border utilities */
+.border-dashed {
+  border-style: dashed;
+}
+
+.hover\:border-electric-hover:hover {
+  border-color: #00E6E6;
+}
+
+.text-electric-hover:hover {
+  color: #00E6E6;
+}
+
+/* Grid utilities */
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
+
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

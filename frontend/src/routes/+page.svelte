@@ -1,30 +1,62 @@
-<div class="bg-light dark:bg-charcoal text-charcoal dark:text-light min-h-screen p-8">
-  <button
-    class="px-6 py-3 bg-electric dark:bg-neon text-charcoal dark:text-charcoal font-bold rounded-lg border-2 border-charcoal dark:border-light hover:opacity-80 transition-opacity"
-    on:click={() => document.documentElement.classList.toggle('dark')}
-  >
-    Toggle Theme
-  </button>
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import { fade, scale } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
-  <p class="mt-4 text-coral dark:text-softYellow">Welcome to Tickr.web 🚀</p>
-  
-  <!-- Test elements to check if custom colors are working -->
-  <div class="mt-8 space-y-4">
-    <h2 class="text-xl font-bold">Custom Color Test:</h2>
-    <div class="flex gap-4 flex-wrap">
-      <!-- Test standard Tailwind colors first -->
-      <div class="w-20 h-20 bg-blue-500 border-2 border-gray-800 rounded flex items-center justify-center text-xs font-bold text-white">blue-500</div>
-      <div class="w-20 h-20 bg-red-500 border-2 border-gray-800 rounded flex items-center justify-center text-xs font-bold text-white">red-500</div>
-      
-      <!-- Test custom colors -->
-      <div class="w-20 h-20 bg-electric border-2 border-charcoal rounded flex items-center justify-center text-xs font-bold text-charcoal">electric</div>
-      <div class="w-20 h-20 bg-neon border-2 border-charcoal rounded flex items-center justify-center text-xs font-bold text-charcoal">neon</div>
-      <div class="w-20 h-20 bg-coral border-2 border-charcoal rounded flex items-center justify-center text-xs font-bold text-white">coral</div>
-      <div class="w-20 h-20 bg-softYellow border-2 border-charcoal rounded flex items-center justify-center text-xs font-bold text-charcoal">softYellow</div>
-      <div class="w-20 h-20 bg-charcoal border-2 border-light rounded flex items-center justify-center text-xs font-bold text-light">charcoal</div>
-      <div class="w-20 h-20 bg-light border-2 border-charcoal rounded flex items-center justify-center text-xs font-bold text-charcoal">light</div>
+  function localFadeScale(node: Element, { delay = 0, duration = 600, start = 0.7 } = {}) {
+    return {
+      delay,
+      duration,
+      css: (t: number) => {
+        const eased = cubicOut(t);
+        const scaleVal = start + (1 - start) * eased;
+        return `
+          opacity: ${eased};
+          transform: scale(${scaleVal});
+        `;
+      }
+    };
+  }
+  let show = false;
+  onMount(() => {
+    show = true;
+    setTimeout(() => goto('/signup'), 1800);
+  });
+</script>
+
+<div class="auth-bg liquid-glass-container flex items-center justify-center min-h-screen p-4">
+  <!-- Floating orbs for ambiance -->
+  <div class="floating-orb w-32 h-32 top-1/4 right-1/4"></div>
+  <div class="floating-orb w-24 h-24 top-3/4 left-1/3"></div>
+  <div class="floating-orb w-28 h-28 bottom-1/4 right-1/2"></div>
+
+  {#if show}
+    <div class="glass-electric rounded-2xl p-10 max-w-md w-full flex flex-col items-center text-center space-y-8 relative z-10"
+      in:localFadeScale={{ duration: 600, start: 0.7 }} out:fade={{ duration: 400 }}>
+      <div class="flex flex-col items-center gap-4 animate-pulse">
+        <span class="w-20 h-20 rounded-full bg-electric dark:bg-neon flex items-center justify-center text-5xl font-extrabold text-charcoal dark:text-charcoal shadow-lg transition-all duration-700">T</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-coral dark:text-softYellow animate-fadein">Tickr.web</h1>
+      </div>
+      <div class="w-24 h-2 rounded-full bg-gradient-to-r from-coral via-electric to-neon animate-gradient"></div>
     </div>
-
-    <div class="bg-[var(--bg-primary)] text-[var(--text-primary)]">Hello</div>
-  </div>
+  {/if}
 </div>
+
+<style>
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadein {
+    animation: fadein 1s cubic-bezier(.4,0,.2,1) both;
+  }
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 1.5s linear infinite alternate;
+  }
+</style>
