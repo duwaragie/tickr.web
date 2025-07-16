@@ -81,4 +81,4 @@ frontend/          # SvelteKit app
 ## Deployment
 
 
-*Built with SvelteKit, Express, and ❤️ by [Your Name].*
+*Built with SvelteKit, Express, and ❤️ by Duwaragie*
